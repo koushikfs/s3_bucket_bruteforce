@@ -25,7 +25,7 @@ This tool is used to brute-force Amazon S3 bucket names based on a provided word
 
 ## Usage
 
-   AWS CLI MUST BE CONFIGURED
+   **AWS CLI MUST BE CONFIGURED**
 
    python3 s3_bruteforce.py /path/to/wordlist.txt [--sub SUBSTRING] [--threads THREADS] [--region REGION]
    
