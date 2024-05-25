@@ -29,25 +29,25 @@ This tool is used to brute-force Amazon S3 bucket names based on a provided word
 
    python3 check_buckets.py /path/to/wordlist.txt [--sub SUBSTRING] [-b | -a] [--threads THREADS] [--region REGION]
    
-   --sub "**test123**"
+   **--sub "**test123**"**
 
    brute forcing:
    1. test123{wordlist_word1}
    2. test123{wordlist_word2}
    3. test123{wordlist_word3} ... continues
 
-   --threads
+   **--threads**
    
    specify the number of threads to be used, default is **20**
 
-   --region
+   **--region**
    
    specify the region, default will be **eu-west-2**
 
-   -b
+   **-b**
    
    Add the substring before the word **(default)**
    
-   -a
+  **-a**
    
    Add the substring after the word
