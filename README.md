@@ -34,7 +34,7 @@ This tool is used to brute-force Amazon S3 bucket names based on a provided word
    brute forcing:
    1. test123{wordlist_word1}
    2. test123{wordlist_word2}
-   3. test123{wordlist_word3} ...continues
+   3. test123{wordlist_word3} ... continues
 
    --threads
    
