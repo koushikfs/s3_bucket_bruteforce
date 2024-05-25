@@ -47,6 +47,7 @@ This tool is used to brute-force Amazon S3 bucket names based on a provided word
    -b
    
    Add the substring before the word **(default)**
+   
    -a
    
    Add the substring after the word
