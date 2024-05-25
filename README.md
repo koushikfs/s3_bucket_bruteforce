@@ -27,7 +27,7 @@ This tool is used to brute-force Amazon S3 bucket names based on a provided word
 
    **AWS CLI MUST BE CONFIGURED**
 
-   python3 s3_bruteforce.py /path/to/wordlist.txt [--sub SUBSTRING] [--threads THREADS] [--region REGION]
+   python3 check_buckets.py /path/to/wordlist.txt [--sub SUBSTRING] [-b | -a] [--threads THREADS] [--region REGION]
    
    --sub "**test123**"
 
@@ -43,3 +43,10 @@ This tool is used to brute-force Amazon S3 bucket names based on a provided word
    --region
    
    specify the region, default will be **eu-west-2**
+
+   -b
+   
+   Add the substring before the word **(default)**
+   -a
+   
+   Add the substring after the word
