@@ -19,9 +19,9 @@ This tool is used to brute-force Amazon S3 bucket names based on a provided word
 
 ## Installation
 
-   git clone https://github.com/koushikfs/s3_bucket_bruteforce.git
-   cd s3-bruteforce
-   pip install -r requirements.txt
+   1. git clone https://github.com/koushikfs/s3_bucket_bruteforce.git
+   2. cd s3_bucket_bruteforce
+   3. pip install -r requirements.txt
 
 ## Usage
 
