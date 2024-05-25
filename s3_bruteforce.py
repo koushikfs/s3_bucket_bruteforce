@@ -9,7 +9,6 @@ import threading
 
 init(autoreset=True)
 
-
 bucket_name_regex = re.compile(r'^[a-zA-Z0-9.\-_]{1,255}$')
 arn_regex = re.compile(r'^arn:(aws).*:(s3|s3-object-lambda):[a-z\-0-9]*:[0-9]{12}:accesspoint[/:][a-zA-Z0-9\-.]{1,63}$|^arn:(aws).*:s3-outposts:[a-z\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\-]{1,63}[/:]accesspoint[/:][a-zA-Z0-9\-]{1,63}$')
 
@@ -30,14 +29,18 @@ def check_bucket(bucket_name, region):
         else:
             return f"Error checking bucket {bucket_name}: {e}"
 
-def validate_and_check_bucket(name, sub, region):
-    bucket_name = f"{sub}{name}" if sub else name
+def validate_and_check_bucket(name, sub, region, position):
+    if position == 'after':
+        bucket_name = f"{name}{sub}"
+    else:
+        bucket_name = f"{sub}{name}"
+    
     if bucket_name_regex.match(bucket_name) or arn_regex.match(bucket_name):
         return check_bucket(bucket_name, region)
     else:
         return f"Invalid bucket name: {bucket_name}"
 
-def main(wordlist, sub, num_threads, region):
+def main(wordlist, sub, num_threads, region, position):
     global progress_count
     with open(wordlist, 'r') as file:
         words = [line.strip() for line in file]
@@ -51,7 +54,7 @@ def main(wordlist, sub, num_threads, region):
             print(Fore.GREEN + f"{percentage:.2f}% completed - {progress_count} buckets scanned", end='\r', flush=True)
 
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        future_to_bucket = {executor.submit(validate_and_check_bucket, word, sub, region): word for word in words}
+        future_to_bucket = {executor.submit(validate_and_check_bucket, word, sub, region, position): word for word in words}
         try:
             for future in as_completed(future_to_bucket):
                 try:
@@ -67,9 +70,11 @@ def main(wordlist, sub, num_threads, region):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="S3 Bucket Brute-force Script")
     parser.add_argument('wordlist', type=str, help='Path to the wordlist file')
-    parser.add_argument('--sub', type=str, default='', help='Substring to prepend to each word')
+    parser.add_argument('--sub', type=str, default='', help='Substring to prepend or append to each word')
     parser.add_argument('--threads', type=int, default=20, help='Number of concurrent threads')
     parser.add_argument('--region', type=str, default='eu-west-2', help='AWS region to use')
+    parser.add_argument('-b', action='store_const', const='before', default='before', help='Add substring before the word (default)')
+    parser.add_argument('-a', action='store_const', const='after', dest='position', help='Add substring after the word')
     args = parser.parse_args()
-    main(args.wordlist, args.sub, args.threads, args.region)
+    main(args.wordlist, args.sub, args.threads, args.region, args.position)
 
